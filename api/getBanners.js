@@ -1,24 +1,18 @@
 export default async function handler(req, res) {
-    if (req.method !== "GET") {
-        return res.status(405).json({ error: "Method Not Allowed" });
+    const region = req.query.region;
+    if (!region) {
+        return res.status(400).json({ error: "Region parameter is required" });
     }
-
+    
     try {
-        const region = req.query.region;
-        if (!region) {
-            return res.status(400).json({ error: "Region is required" });
-        }
-
-        const apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
-
-        const response = await fetch(apiUrl);
+        const response = await fetch(`https://ff-banner-api.vercel.app/banner/filter?region=${region}`);
         if (!response.ok) {
-            throw new Error(`API error: ${response.statusText}`);
+            throw new Error("Failed to fetch data from API");
         }
-
+        
         const data = await response.json();
         res.status(200).json(data);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: "Internal Server Error" });
     }
 }
