@@ -1,32 +1,24 @@
-
-// Vercel Serverless API function to securely fetch banners
 export default async function handler(req, res) {
-    if (req.method !== "POST") {
+    if (req.method !== "GET") {
         return res.status(405).json({ error: "Method Not Allowed" });
     }
 
-    const { region } = req.body;
-    if (!region) {
-        return res.status(400).json({ error: "Region is required" });
-    }
-
-    // Secure API call (Real API is hidden in Vercel Environment Variables)
-    const apiUrl = process.env.API_URL;
-
     try {
-        const response = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ region })
-        });
+        const region = req.query.region;
+        if (!region) {
+            return res.status(400).json({ error: "Region is required" });
+        }
 
+        const apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
+
+        const response = await fetch(apiUrl);
         if (!response.ok) {
-            throw new Error("Failed to fetch banners.");
+            throw new Error(`API error: ${response.statusText}`);
         }
 
         const data = await response.json();
-        return res.status(200).json(data);
+        res.status(200).json(data);
     } catch (error) {
-        return res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: error.message });
     }
 }
