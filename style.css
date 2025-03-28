@@ -1,5 +1,4 @@
-
-        /* Base Styles */
+/* Base Styles */
         :root {
             --primary: #00a2ff;
             --secondary: #00ff88;
@@ -764,4 +763,3 @@
                 font-size: 0.8rem;
             }
         }
-    
