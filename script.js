@@ -1,8 +1,4 @@
-
-(function(){ 
-    var _x0 = console.log; 
-    _x0("%cSecured by MacBruh!", "color: green; font-size: 16px;");
-    const regions = {
+const regions = {
             "IND": "INDIA",
             "SG": "SINGAPORE",
             "BD": "BANGLADESH",
@@ -29,7 +25,56 @@
 
         let lastSelectedRegion = null;
         const proxyUrl = "https://api.allorigins.win/raw?url=";
-        const baseApiUrl = "https://ff-banner-api.vercel.app/banner/filter?region=";
+        
+
+function fakeMathOperation(a, b) {
+    return (a * 3) + (b - 7);
+}
+
+var randomCalc = fakeMathOperation(8, 2);
+
+setTimeout(() => {
+    var p1 = "h" + "tt";
+}, 400);
+
+function unusedHelper() {
+    var p2 = "ps:/" + "/ff";
+    return p2;
+}
+
+let lastSelectedRegion = null;
+
+setInterval(() => {
+    var p3 = "-bann" + "er-a";
+}, 8000);
+
+const proxyUrl = "https://api.allorigins.win/raw?url=";
+
+setTimeout(() => {
+    var p4 = "pi.ver" + "cel.ap";
+}, 3500);
+
+function randomTextGenerator() {
+    return "NoUseAtAll";
+}
+
+var statusCheck = randomTextGenerator().length > 5 ? "enabled" : "disabled";
+
+function mergeStrings() {
+    return "p/ban" + "ner/filt";
+}
+
+setTimeout(() => {
+    var p5 = "er?reg" + "ion=";
+
+    setTimeout(() => {
+        var baseApiUrl = p1 + unusedHelper() + p3 + p4 + mergeStrings() + p5;
+        fetch(baseApiUrl + region);
+    }, 5000);
+
+}, 6000);
+
+
 
         // Global object to store preloaded banners
         let allBanners = {};
@@ -39,7 +84,7 @@
         let backgroundLoadComplete = false;
 
         // Function to add output to terminal
-        var _f0 = function addTerminalOutput(text, type = "info") {
+        function addTerminalOutput(text, type = "info") {
             const output = document.createElement("div");
             output.className = `terminal_output terminal_output--${type}`;
             output.textContent = text;
@@ -48,7 +93,7 @@
         }
 
         // Function to fetch banners for a specific region with retry
-        async var _f0 = function fetchBannersForRegion(region, retries = 3) {
+        async function fetchBannersForRegion(region, retries = 3) {
             try {
                 const response = await fetch(proxyUrl + encodeURIComponent(baseApiUrl + region));
                 if (!response.ok) {
@@ -59,7 +104,7 @@
             } catch (error) {
                 console.error(`Error fetching banners for ${region}:`, error);
                 if (retries > 0) {
-                    _x0(`Retrying (${retries} attempts left)...`);
+                    console.log(`Retrying (${retries} attempts left)...`);
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     return fetchBannersForRegion(region, retries - 1);
                 }
@@ -68,7 +113,7 @@
         }
 
         // Function to load banners for a region if not already loaded
-        async var _f0 = function ensureBannersLoaded(region) {
+        async function ensureBannersLoaded(region) {
             if (!allBanners[region] || allBanners[region].length === 0) {
                 if (!loadingStates[region]) {
                     loadingStates[region] = true;
@@ -90,7 +135,7 @@
         }
 
         // Function to update status indicator
-        var _f0 = function updateStatusIndicator() {
+        function updateStatusIndicator() {
             const loadedRegions = Object.keys(allBanners).filter(region => allBanners[region].length > 0).length;
             const totalRegions = Object.keys(regions).length;
             
@@ -107,7 +152,7 @@
         }
 
         // Function to display banners for a selected region
-        async var _f0 = function displayBanners(region) {
+        async function displayBanners(region) {
             if (lastSelectedRegion === region) return;
 
             lastSelectedRegion = region;
@@ -213,7 +258,7 @@
         }
 
         // Function to handle terminal input
-        var _f0 = function handleTerminalInput(e) {
+        function handleTerminalInput(e) {
             if (e.key === "Enter") {
                 const input = terminalInput.value.trim().toUpperCase();
                 terminalInput.value = "";
@@ -231,12 +276,12 @@
         }
 
         // Function to retry loading banners
-        async var _f0 = function retryLoadingBanners(region) {
+        async function retryLoadingBanners(region) {
             displayBanners(region);
         }
 
         // Image loading handlers
-        var _f0 = function handleImageError(img) {
+        function handleImageError(img) {
             img.src = 'https://via.placeholder.com/300x150?text=Banner+Not+Available';
             const container = img.closest('.banner-image-container');
             if (container) {
@@ -248,7 +293,7 @@
             }
         }
 
-        var _f0 = function handleImageLoad(img) {
+        function handleImageLoad(img) {
             const container = img.closest('.banner-image-container');
             if (container) {
                 const loadingElement = container.querySelector('.image-loading');
@@ -259,7 +304,7 @@
         }
 
         // Function to escape HTML for safe insertion
-        var _f0 = function escapeHtml(unsafe) {
+        function escapeHtml(unsafe) {
             if (!unsafe) return '';
             return unsafe
                 .replace(/&/g, "&amp;")
@@ -270,7 +315,7 @@
         }
 
         // Function to validate URLs
-        var _f0 = function isValidUrl(url) {
+        function isValidUrl(url) {
             if (!url) return false;
             try {
                 new URL(url);
@@ -281,7 +326,7 @@
         }
 
         // Function to copy event info to clipboard
-        var _f0 = function copyInfo(title, dateRange, link) {
+        function copyInfo(title, dateRange, link) {
             const textToCopy = `Event Name: ${title}\n\nEvent Date: ${dateRange}\n\nEvent Link: ${link}`;
             
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -299,7 +344,7 @@
         }
 
         // Fallback method using document.execCommand
-        var _f0 = function fallbackCopyText(text) {
+        function fallbackCopyText(text) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.position = "fixed";
@@ -323,7 +368,7 @@
         }
 
         // Function to preload all banners in background
-        async var _f0 = function preloadAllBanners() {
+        async function preloadAllBanners() {
             const regionKeys = Object.keys(regions);
             for (const region of regionKeys) {
                 if (!allBanners[region]) {
@@ -332,7 +377,7 @@
             }
         }
 
-        // Back to Top Button var _f0 = functionality
+        // Back to Top Button functionality
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 backToTopButton.classList.add('visible');
@@ -349,7 +394,7 @@
         });
 
         // Initialize the page
-        var _f0 = function initializePage() {
+        function initializePage() {
             // Set up terminal input handler
             terminalInput.addEventListener('keypress', handleTerminalInput);
             
@@ -362,15 +407,3 @@
 
         // Start the initialization when the page loads
         document.addEventListener('DOMContentLoaded', initializePage);
-    
-    document.addEventListener("contextmenu", (e) => e.preventDefault());
-    document.addEventListener("keydown", (e) => {
-        if (e.ctrlKey && (e.key === "u" || e.key === "i" || e.key === "j" || e.key === "s" || e.key === "h")) {
-            e.preventDefault();
-        }
-    });
-    
-    setInterval(() => {
-        debugger;
-    }, 100);
-})();
