@@ -1,4 +1,8 @@
-const regions = {
+
+(function(){ 
+    var _x0 = console.log; 
+    _x0("%cSecured by MacBruh!", "color: green; font-size: 16px;");
+    const regions = {
             "IND": "INDIA",
             "SG": "SINGAPORE",
             "BD": "BANGLADESH",
@@ -35,7 +39,7 @@ const regions = {
         let backgroundLoadComplete = false;
 
         // Function to add output to terminal
-        function addTerminalOutput(text, type = "info") {
+        var _f0 = function addTerminalOutput(text, type = "info") {
             const output = document.createElement("div");
             output.className = `terminal_output terminal_output--${type}`;
             output.textContent = text;
@@ -44,7 +48,7 @@ const regions = {
         }
 
         // Function to fetch banners for a specific region with retry
-        async function fetchBannersForRegion(region, retries = 3) {
+        async var _f0 = function fetchBannersForRegion(region, retries = 3) {
             try {
                 const response = await fetch(proxyUrl + encodeURIComponent(baseApiUrl + region));
                 if (!response.ok) {
@@ -55,7 +59,7 @@ const regions = {
             } catch (error) {
                 console.error(`Error fetching banners for ${region}:`, error);
                 if (retries > 0) {
-                    console.log(`Retrying (${retries} attempts left)...`);
+                    _x0(`Retrying (${retries} attempts left)...`);
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     return fetchBannersForRegion(region, retries - 1);
                 }
@@ -64,7 +68,7 @@ const regions = {
         }
 
         // Function to load banners for a region if not already loaded
-        async function ensureBannersLoaded(region) {
+        async var _f0 = function ensureBannersLoaded(region) {
             if (!allBanners[region] || allBanners[region].length === 0) {
                 if (!loadingStates[region]) {
                     loadingStates[region] = true;
@@ -86,7 +90,7 @@ const regions = {
         }
 
         // Function to update status indicator
-        function updateStatusIndicator() {
+        var _f0 = function updateStatusIndicator() {
             const loadedRegions = Object.keys(allBanners).filter(region => allBanners[region].length > 0).length;
             const totalRegions = Object.keys(regions).length;
             
@@ -103,7 +107,7 @@ const regions = {
         }
 
         // Function to display banners for a selected region
-        async function displayBanners(region) {
+        async var _f0 = function displayBanners(region) {
             if (lastSelectedRegion === region) return;
 
             lastSelectedRegion = region;
@@ -209,7 +213,7 @@ const regions = {
         }
 
         // Function to handle terminal input
-        function handleTerminalInput(e) {
+        var _f0 = function handleTerminalInput(e) {
             if (e.key === "Enter") {
                 const input = terminalInput.value.trim().toUpperCase();
                 terminalInput.value = "";
@@ -227,12 +231,12 @@ const regions = {
         }
 
         // Function to retry loading banners
-        async function retryLoadingBanners(region) {
+        async var _f0 = function retryLoadingBanners(region) {
             displayBanners(region);
         }
 
         // Image loading handlers
-        function handleImageError(img) {
+        var _f0 = function handleImageError(img) {
             img.src = 'https://via.placeholder.com/300x150?text=Banner+Not+Available';
             const container = img.closest('.banner-image-container');
             if (container) {
@@ -244,7 +248,7 @@ const regions = {
             }
         }
 
-        function handleImageLoad(img) {
+        var _f0 = function handleImageLoad(img) {
             const container = img.closest('.banner-image-container');
             if (container) {
                 const loadingElement = container.querySelector('.image-loading');
@@ -255,7 +259,7 @@ const regions = {
         }
 
         // Function to escape HTML for safe insertion
-        function escapeHtml(unsafe) {
+        var _f0 = function escapeHtml(unsafe) {
             if (!unsafe) return '';
             return unsafe
                 .replace(/&/g, "&amp;")
@@ -266,7 +270,7 @@ const regions = {
         }
 
         // Function to validate URLs
-        function isValidUrl(url) {
+        var _f0 = function isValidUrl(url) {
             if (!url) return false;
             try {
                 new URL(url);
@@ -277,7 +281,7 @@ const regions = {
         }
 
         // Function to copy event info to clipboard
-        function copyInfo(title, dateRange, link) {
+        var _f0 = function copyInfo(title, dateRange, link) {
             const textToCopy = `Event Name: ${title}\n\nEvent Date: ${dateRange}\n\nEvent Link: ${link}`;
             
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -295,7 +299,7 @@ const regions = {
         }
 
         // Fallback method using document.execCommand
-        function fallbackCopyText(text) {
+        var _f0 = function fallbackCopyText(text) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
             textArea.style.position = "fixed";
@@ -319,7 +323,7 @@ const regions = {
         }
 
         // Function to preload all banners in background
-        async function preloadAllBanners() {
+        async var _f0 = function preloadAllBanners() {
             const regionKeys = Object.keys(regions);
             for (const region of regionKeys) {
                 if (!allBanners[region]) {
@@ -328,7 +332,7 @@ const regions = {
             }
         }
 
-        // Back to Top Button functionality
+        // Back to Top Button var _f0 = functionality
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
                 backToTopButton.classList.add('visible');
@@ -345,7 +349,7 @@ const regions = {
         });
 
         // Initialize the page
-        function initializePage() {
+        var _f0 = function initializePage() {
             // Set up terminal input handler
             terminalInput.addEventListener('keypress', handleTerminalInput);
             
@@ -358,3 +362,15 @@ const regions = {
 
         // Start the initialization when the page loads
         document.addEventListener('DOMContentLoaded', initializePage);
+    
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+    document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && (e.key === "u" || e.key === "i" || e.key === "j" || e.key === "s" || e.key === "h")) {
+            e.preventDefault();
+        }
+    });
+    
+    setInterval(() => {
+        debugger;
+    }, 100);
+})();
