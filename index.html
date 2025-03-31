@@ -2,71 +2,1362 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALL SERVER SPLASH BANNERS</title>
-    <!-- Font Awesome for Icons -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SPLASH BANNERS ARCHIVE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts for Orbitron and Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00a2ff;
+            --primary-light: #4db8ff;
+            --terminal-bg: #0d1117;
+            --terminal-header: #212121;
+            --terminal-text: #e6e6e6;
+            --terminal-green: #33ff00;
+            --terminal-blue: #29b8db;
+            --terminal-red: #ff3333;
+            --terminal-yellow: #ffcc00;
+            --terminal-purple: #cc66ff;
+            --terminal-cyan: #00ffff;
+            --card-bg: rgba(0, 24, 55, 0.3);
+            --card-hover: rgba(0, 36, 80, 0.5);
+            --upcoming-green: #00cc66;
+            --error-red: #ff4d4d;
+            --dark-bg: #0d1117;
+            --darker-bg: #080c10;
+            --grid-color: rgba(0, 162, 255, 0.15);
+            --scrollbar-thumb: rgba(80, 80, 80, 0.7);
+            --scrollbar-track: rgba(30, 30, 30, 0.5);
+            --skeleton-bg: rgba(255, 255, 255, 0.05);
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            touch-action: pan-y;
+        }
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: var(--dark-bg);
+            color: var(--terminal-text);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            animation: flash 0.3s;
+        }
+        @keyframes flash {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -2;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background-color: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+        .grid-plane {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: center;
+            animation: grid-move 20s linear infinite;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        @keyframes grid-move {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
+        }
+        .main-title {
+            margin: 20px 0;
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            color: var(--primary);
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 162, 255, 0.5);
+            position: relative;
+        }
+        .terminal-container {
+            width: 90%;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto 30px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 162, 255, 0.2);
+            background: var(--terminal-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        .terminal-container:hover {
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 162, 255, 0.3);
+        }
+        .terminal-header {
+            display: flex;
+            height: 30px;
+            align-items: center;
+            padding: 0 12px;
+            background: var(--terminal-header);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .terminal-button:hover {
+            transform: scale(1.1);
+        }
+        .terminal-button.close {
+            background: var(--terminal-red);
+        }
+        .terminal-button.minimize {
+            background: var(--terminal-yellow);
+        }
+        .terminal-button.maximize {
+            background: var(--terminal-green);
+        }
+        .terminal-title {
+            margin-left: 15px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            flex-grow: 1;
+        }
+        .terminal-body {
+            padding: 12px;
+            flex-grow: 1;
+            overflow-y: auto;
+            font-size: 12px;
+            font-family: 'IBM Plex Mono', monospace;
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            flex-direction: column;
+            background: 
+                linear-gradient(rgba(13, 17, 23, 0.9), rgba(13, 17, 23, 0.9)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="rgba(0, 162, 255, 0.05)" stroke-width="1"/></svg>');
+        }
+        .terminal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .terminal-body::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 3px;
+        }
+        .terminal-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        .terminal-welcome {
+            text-align: center;
+            margin: 10px 0;
+            color: var(--terminal-text);
+            line-height: 1.5;
+        }
+        .terminal-prompt {
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+            text-align: left;
+            flex-shrink: 0;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .terminal-user {
+            color: var(--terminal-green);
+        }
+        .terminal-location {
+            color: var(--terminal-blue);
+        }
+        .terminal-symbol {
+            color: var(--terminal-text);
+            margin-right: 5px;
+        }
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: var(--terminal-text);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            flex-grow: 1;
+            outline: none;
+            caret-color: var(--terminal-text);
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 10;
+        }
+        .terminal-input-visible {
+            position: relative;
+            opacity: 1;
+            width: auto;
+            height: auto;
+            left: auto;
+            top: auto;
+            z-index: auto;
+            min-width: 10px;
+        }
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--terminal-text);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .terminal-line {
+            margin-bottom: 5px;
+            word-break: break-word;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+        .command-output {
+            color: var(--terminal-text);
+        }
+        .command-error {
+            color: var(--terminal-red);
+        }
+        .command-success {
+            color: var(--terminal-green);
+        }
+        .command-info {
+            color: var(--terminal-blue);
+        }
+        .command-warning {
+            color: var(--terminal-yellow);
+        }
+        .command-highlight {
+            color: var(--terminal-cyan);
+        }
+        .regions-list {
+            font-size: 12px;
+            color: var(--terminal-purple);
+            text-align: center;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+        .region-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0 5px;
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: none;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(0, 162, 255, 0.3);
+        }
+        .region-count {
+            font-size: 0.9rem;
+            color: var(--terminal-text);
+            opacity: 0.7;
+            margin-left: 10px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        .banners {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 10px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .banner {
+            position: relative;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(0, 162, 255, 0) 0%,
+                rgba(0, 162, 255, 0.1) 50%,
+                rgba(0, 162, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            opacity: 0;
+        }
+        .banner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 162, 255, 0.2);
+            background: var(--card-hover);
+            border-color: var(--primary-light);
+        }
+        .banner:hover::before {
+            animation: shine 1.5s;
+            opacity: 1;
+        }
+        @keyframes shine {
+            0% { left: -50%; top: -50%; }
+            100% { left: 150%; top: 150%; }
+        }
+        .banner.upcoming {
+            border: 1px solid var(--upcoming-green);
+            background: rgba(0, 80, 40, 0.3);
+        }
+        .upcoming-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--upcoming-green);
+            color: white;
+            padding: 3px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 10px;
+            z-index: 2;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .banner-image-container {
+            position: relative;
+            width: 100%;
+            min-height: 160px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .banner img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .banner:hover img {
+            transform: scale(1.02);
+        }
+        .banner-image-error {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 0, 0, 0.1);
+            border: 1px dashed rgba(255, 0, 0, 0.3);
+            border-radius: 5px;
+            color: var(--error-red);
+            font-size: 0.9rem;
+            font-weight: bold;
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            padding: 10px;
+        }
+        .banner-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--primary);
+            transition: color 0.3s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .banner:hover .banner-title {
+            color: var(--primary-light);
+        }
+        .event-date {
+            font-size: 0.85rem;
+            color: var(--terminal-text);
+            margin: 8px 0;
+            opacity: 0.8;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .copy-info-button, .redirect-button {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            min-width: 100px;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            font-family: 'IBM Plex Mono', monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .copy-info-button {
+            background-color: rgba(0, 162, 255, 0.2);
+            color: var(--terminal-text);
+            border: 1px solid rgba(0, 162, 255, 0.5);
+        }
+        .copy-info-button:hover {
+            background-color: rgba(0, 162, 255, 0.3);
+        }
+        .copy-info-button.copied {
+            background-color: rgba(0, 255, 136, 0.2);
+            border-color: rgba(0, 255, 136, 0.5);
+        }
+        .redirect-button {
+            background-color: rgba(0, 255, 136, 0.2);
+            border: 1px solid rgba(0, 255, 136, 0.5);
+            color: var(--terminal-text);
+            text-decoration: none;
+        }
+        .redirect-button:hover {
+            background-color: rgba(0, 255, 136, 0.3);
+        }
+        .loader {
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 3px solid rgba(0, 162, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 162, 255, 0.2);
+            margin-top: 5px;
+            overflow: hidden;
+            border-radius: 3px;
+        }
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .status-indicator {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--terminal-green);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+        .status-indicator.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .status-indicator.error {
+            color: var(--terminal-red);
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 162, 255, 0.5);
+            z-index: 99;
+            border: none;
+        }
+        .back-to-top.visible {
+            opacity: 0.8;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(0, 162, 255, 0.7);
+        }
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--terminal-text);
+            opacity: 0.7;
+            font-size: 1.1rem;
+        }
+        .skeleton {
+            animation: skeleton-loading 1.5s linear infinite alternate;
+            background-color: var(--skeleton-bg);
+            border-radius: 5px;
+        }
+        @keyframes skeleton-loading {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+        .skeleton-image {
+            width: 100%;
+            height: 160px;
+            margin-bottom: 8px;
+        }
+        .skeleton-title {
+            width: 80%;
+            height: 20px;
+            margin: 10px auto;
+        }
+        .skeleton-date {
+            width: 60%;
+            height: 16px;
+            margin: 8px auto;
+        }
+        .skeleton-button {
+            width: 100px;
+            height: 30px;
+            margin: 10px auto;
+        }
+        .keyboard-shortcut {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--terminal-text);
+            opacity: 0.7;
+            transition: all 0.3s;
+            z-index: 98;
+        }
+        .keyboard-shortcut:hover {
+            opacity: 1;
+        }
+        .keyboard-shortcut kbd {
+            background-color: rgba(0, 162, 255, 0.2);
+            border: 1px solid var(--primary);
+            border-radius: 3px;
+            padding: 2px 5px;
+            margin: 0 2px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        .last-updated {
+            font-size: 0.7rem;
+            color: var(--terminal-text);
+            opacity: 0.5;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .creator-info {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--terminal-blue);
+            text-align: center;
+        }
+        .creator-info a {
+            color: var(--terminal-cyan);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .creator-info a:hover {
+            color: var(--primary-light);
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.2rem;
+                letter-spacing: 4px;
+            }
+            .terminal-container {
+                width: 95%;
+                height: 350px;
+            }
+            .banners {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .back-to-top {
+                bottom: 15px;
+                right: 15px;
+                width: 36px;
+                height: 36px;
+            }
+            .keyboard-shortcut {
+                display: none;
+            }
+            .banner-title {
+                font-size: 0.85rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8rem;
+                letter-spacing: 3px;
+                margin-top: 40px;
+            }
+            .banner {
+                padding: 12px;
+            }
+            .button-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .copy-info-button, .redirect-button {
+                width: 100%;
+            }
+            .banner-title {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Cosmic Background Elements -->
-    <div class="stars-container">
-        <div class="star-layer"></div>
-        <div class="star-layer"></div>
-        <div class="star-layer"></div>
-    </div>
+    <div class="particles" id="particles"></div>
     <div class="grid-plane"></div>
-
-    <h1 id="main-title">ALL SERVER SPLASH BANNERS</h1>
-
-    <!-- Terminal UI for region selection -->
+    <h1 class="main-title">SPLASH BANNERS ARCHIVE</h1>
     <div class="terminal-container" id="terminal-container">
-        <div class="terminal_toolbar">
-            <div class="terminal_buttons">
-                <button class="terminal_button terminal_button--close"></button>
-                <button class="terminal_button"></button>
-                <button class="terminal_button"></button>
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <div class="terminal-button close" id="terminal-close"></div>
+                <div class="terminal-button minimize" id="terminal-minimize"></div>
+                <div class="terminal-button maximize" id="terminal-maximize"></div>
             </div>
-            <p class="terminal_user">user@banner-terminal: ~</p>
+            <div class="terminal-title">banner-terminal</div>
         </div>
-        <div class="terminal_body" id="terminal-body">
-            <div class="terminal_output terminal_output--info">
-                Welcome to FF Banner Terminal
+        <div class="terminal-body" id="terminal-body">
+            <div class="terminal-content" id="terminal-content">
+                <div class="terminal-welcome">
+                    Welcome to Splash Banners Archive Terminal
+                </div>
+                <div class="terminal-welcome">
+                    Type <span class="command-highlight">help</span> for available commands
+                </div>
+                <div class="regions-list">
+                    Available regions: IND, SG, BD, EU, CIS, NA, ID, PK, BR, ME, TH, SAC, VN
+                </div>
             </div>
-            <div class="terminal_output terminal_output--info">
-                Available regions: IND, SG, BD, EU, CIS, NA, ID, PK, BR, ME, TH, SAC, VN
-            </div>
-            <div class="terminal_prompt">
-                <span class="terminal_prompt_user">user</span>
-                <span class="terminal_prompt_location">@banner-terminal</span>
-                <span class="terminal_prompt_symbol">:~$</span>
-                <input type="text" class="terminal_input" id="terminal-input" autofocus>
-                <span class="terminal_cursor"></span>
+            <div class="terminal-prompt">
+                <span class="terminal-user">user</span>
+                <span class="terminal-location">@banner-terminal</span>
+                <span class="terminal-symbol">:$</span>
+                <span class="terminal-input-visible" id="terminal-input-display"></span>
+                <span class="terminal-cursor"></span>
+                <input type="text" class="terminal-input" id="terminal-input" autofocus>
             </div>
         </div>
     </div>
-
-    <!-- Region Title -->
     <h2 class="region-title" id="region-title"></h2>
-
-    <!-- Banners Container -->
     <div class="banners" id="banners-container"></div>
-
-    <!-- Status indicator for background loading -->
     <div class="status-indicator" id="status-indicator">
-        <i class="fas fa-circle-notch loading-icon"></i>
-        <span>Loading all banners...</span>
+        <i class="fas fa-circle-notch fa-spin"></i> <span>Loading...</span>
     </div>
-
-    <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop" title="Go to top">
         <i class="fas fa-arrow-up"></i>
     </button>
+    <div class="keyboard-shortcut" id="keyboardShortcut" title="Focus terminal">
+        Press <kbd>Ctrl</kbd> + <kbd>K</kbd> to focus terminal
+    </div>
+    <script>
+        // Enhanced regions data with additional info
+        const regions = {
+            "IND": { name: "INDIA", flag: "🇮🇳" },
+            "SG": { name: "SINGAPORE", flag: "🇸🇬" },
+            "BD": { name: "BANGLADESH", flag: "🇧🇩" },
+            "EU": { name: "EUROPE", flag: "🇪🇺" },
+            "CIS": { name: "RUSSIA", flag: "🇷🇺" },
+            "NA": { name: "NORTH AMERICA", flag: "🇺🇸" },
+            "ID": { name: "INDONESIA", flag: "🇮🇩" },
+            "PK": { name: "PAKISTAN", flag: "🇵🇰" },
+            "BR": { name: "BRAZIL", flag: "🇧🇷" },
+            "ME": { name: "MIDDLE EAST", flag: "🇸🇦" },
+            "TH": { name: "THAILAND", flag: "🇹🇭" },
+            "SAC": { name: "LATAM", flag: "🇲🇽" },
+            "VN": { name: "VIETNAM", flag: "🇻🇳" }
+        };
 
-    
-    <script src="script.js"></script>
+        // DOM Elements
+        const terminalContent = document.getElementById("terminal-content");
+        const terminalInput = document.getElementById("terminal-input");
+        const terminalInputDisplay = document.getElementById("terminal-input-display");
+        const terminalContainer = document.getElementById("terminal-container");
+        const terminalClose = document.getElementById("terminal-close");
+        const terminalMinimize = document.getElementById("terminal-minimize");
+        const terminalMaximize = document.getElementById("terminal-maximize");
+        const bannersContainer = document.getElementById("banners-container");
+        const regionTitle = document.getElementById("region-title");
+        const statusIndicator = document.getElementById("status-indicator");
+        const backToTopButton = document.getElementById("backToTop");
+        const particlesContainer = document.getElementById("particles");
+        const keyboardShortcut = document.getElementById("keyboardShortcut");
+
+        // Command history and state
+        let commandHistory = [];
+        let historyIndex = -1;
+        let currentRegion = null;
+        let currentBanners = [];
+        let bannerCache = JSON.parse(localStorage.getItem('bannerCache')) || {};
+        let lastUpdated = JSON.parse(localStorage.getItem('lastUpdated')) || {};
+
+        // Initialize particles
+        function initParticles() {
+            const particleCount = Math.min(Math.floor(window.innerWidth * window.innerHeight / 10000), 50);
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random size between 1 and 3px
+                const size = Math.random() * 2 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration between 10 and 20s
+                const duration = Math.random() * 10 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Terminal functions
+        function addTerminalLine(text, type = "output") {
+            const line = document.createElement("div");
+            line.className = "terminal-line";
+            
+            // Only add prompt for command inputs, not for command outputs
+            if (type === "output") {
+                const prompt = document.createElement("span");
+                prompt.innerHTML = '<span class="terminal-user">user</span><span class="terminal-location">@banner-terminal</span><span class="terminal-symbol">:$</span> ';
+                line.appendChild(prompt);
+            }
+            
+            const content = document.createElement("span");
+            content.className = `command-${type}`;
+            content.innerHTML = text; // Changed to innerHTML to render spans correctly
+            line.appendChild(content);
+            
+            terminalContent.appendChild(line);
+            terminalContent.scrollTop = terminalContent.scrollHeight;
+        }
+
+        function clearTerminal() {
+            terminalContent.innerHTML = `
+                <div class="terminal-welcome">
+                    Welcome to Splash Banners Archive Terminal
+                </div>
+                <div class="terminal-welcome">
+                    Type <span class="command-highlight">help</span> for available commands
+                </div>
+                <div class="regions-list">
+                    Available regions: IND, SG, BD, EU, CIS, NA, ID, PK, BR, ME, TH, SAC, VN
+                </div>
+            `;
+            commandHistory = [];
+            historyIndex = -1;
+        }
+
+        function showHelp() {
+            const helpText = `Available commands:
+[<span class="command-highlight">region code</span>] - Load banners for specified region (e.g., IND, EU, NA)
+<span class="command-highlight">list</span> - Show available region codes
+<span class="command-highlight">clear</span> - Clear the terminal
+<span class="command-highlight">help</span> - Show this help message
+<span class="command-highlight">about</span> - Show information about this project
+<span class="command-highlight">cache</span> - Clear cached banner data
+
+Examples:
+> IND - Load India banners
+> list - Show all region codes`;
+            addTerminalLine(helpText, "info");
+        }
+
+        function showAbout() {
+            const aboutText = `Splash Banners Archive v1.2
+A collection of Free Fire splash banners from all regions.
+            
+Created by MACBRUH FF ©
+<a href="https://www.instagram.com/macbruh_ff" target="_blank">Instagram</a>  
+<a href="https://t.me/macbruh_ff" target="_blank">Telegram</a>`;
+            addTerminalLine(aboutText, "info");
+            
+            // Add creator info to the terminal
+            const creatorInfo = document.createElement('div');
+            creatorInfo.className = 'creator-info';
+            creatorInfo.innerHTML = `Created by MACBRUH FF ©<br>
+            <a href="https://www.instagram.com/macbruh_ff" target="_blank">Instagram</a> 
+            <a href="https://t.me/macbruh_ff" target="_blank">Telegram</a>`;
+            terminalContent.appendChild(creatorInfo);
+        }
+
+        // Data fetching and processing
+        async function fetchBanners(region) {
+            // Check cache first
+            if (bannerCache[region] && bannerCache[region].timestamp > Date.now() - 86400000) { // 24 hour cache
+                return bannerCache[region].data;
+            }
+            
+            showStatus('Loading banners...', 'info');
+            
+            try {
+                const proxyUrl = "https://api.allorigins.win/raw?url=";
+                const apiUrl = `https://ff-banner-api.vercel.app/banner/filter?region=${region}`;
+                
+                // Show progress indicator
+                const progressInterval = setInterval(() => {
+                    showStatus(`Loading banners... ${Math.floor(Math.random() * 30 + 50)}%`, 'info');
+                }, 800);
+                
+                const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+                const data = await response.json();
+                
+                clearInterval(progressInterval);
+                
+                // Cache the data
+                bannerCache[region] = {
+                    data: Array.isArray(data) ? data : [],
+                    timestamp: Date.now()
+                };
+                
+                // Update last updated time
+                lastUpdated[region] = Date.now();
+                
+                // Save to localStorage
+                localStorage.setItem('bannerCache', JSON.stringify(bannerCache));
+                localStorage.setItem('lastUpdated', JSON.stringify(lastUpdated));
+                
+                showStatus('Banners loaded successfully', 'success');
+                return bannerCache[region].data;
+            } catch (error) {
+                console.error("Error fetching banners:", error);
+                showStatus('Failed to load banners', 'error');
+                
+                // If we have cached data, return that even if fetch failed
+                if (bannerCache[region]) {
+                    showStatus('Showing cached data', 'warning');
+                    return bannerCache[region].data;
+                }
+                
+                return [];
+            }
+        }
+
+        // Status indicator functions
+        function showStatus(message, type = 'info') {
+            const icon = type === 'error' ? 'fa-times' : 
+                        type === 'success' ? 'fa-check' : 
+                        type === 'info' ? 'fa-circle-notch fa-spin' : 'fa-info-circle';
+            
+            statusIndicator.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
+            statusIndicator.className = `status-indicator visible ${type === 'error' ? 'error' : ''}`;
+            
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusIndicator.classList.remove('visible');
+                    setTimeout(() => {
+                        statusIndicator.className = 'status-indicator';
+                    }, 300);
+                }, 3000);
+            }
+        }
+
+        // Date formatting
+        function formatDate(date) {
+            const day = date.getDate();
+            let suffix = 'th';
+            if (day % 10 === 1 && day !== 11) suffix = 'st';
+            if (day % 10 === 2 && day !== 12) suffix = 'nd';
+            if (day % 10 === 3 && day !== 13) suffix = 'rd';
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                              "July", "August", "September", "October", "November", "December"];
+            
+            return `${day}${suffix} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function formatTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            
+            let interval = Math.floor(seconds / 31536000);
+            if (interval >= 1) return `${interval} year${interval === 1 ? '' : 's'} ago`;
+            
+            interval = Math.floor(seconds / 2592000);
+            if (interval >= 1) return `${interval} month${interval === 1 ? '' : 's'} ago`;
+            
+            interval = Math.floor(seconds / 86400);
+            if (interval >= 1) return `${interval} day${interval === 1 ? '' : 's'} ago`;
+            
+            interval = Math.floor(seconds / 3600);
+            if (interval >= 1) return `${interval} hour${interval === 1 ? '' : 's'} ago`;
+            
+            interval = Math.floor(seconds / 60);
+            if (interval >= 1) return `${interval} minute${interval === 1 ? '' : 's'} ago`;
+            
+            return `${Math.floor(seconds)} second${seconds === 1 ? '' : 's'} ago`;
+        }
+
+        function getBannerStatus(banner) {
+            const now = new Date();
+            const startDate = new Date(banner.start * 1000);
+            return now < startDate ? "upcoming" : "current";
+        }
+
+        function cleanBannerTitle(title) {
+            if (!title) return 'Untitled Event';
+            return title.replace(/\*+$/, '').trim();
+        }
+
+        // Banner display and filtering
+        function displayBanners(banners, region) {
+            if (!banners || banners.length === 0) {
+                bannersContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-exclamation-circle"></i><br>
+                        No banners available for ${regions[region].name}
+                    </div>
+                `;
+                return;
+            }
+            
+            // Show loading skeletons first
+            showLoadingSkeletons(banners.length);
+            
+            // Sort banners by date (newest first)
+            banners.sort((a, b) => b.start - a.start);
+            
+            // After a short delay to show skeletons, display actual banners
+            setTimeout(() => {
+                // Generate HTML
+                bannersContainer.innerHTML = banners.map(banner => createBannerCard(banner)).join('');
+                
+                // Update region title with count
+                const countElement = document.createElement('span');
+                countElement.className = 'region-count';
+                countElement.textContent = `(${banners.length} banners)`;
+                
+                // Add last updated time if available
+                if (lastUpdated[region]) {
+                    const updatedElement = document.createElement('div');
+                    updatedElement.className = 'last-updated';
+                    updatedElement.textContent = `Last updated: ${formatTimeAgo(lastUpdated[region])}`;
+                    regionTitle.appendChild(updatedElement);
+                }
+                
+                // Lazy load images
+                lazyLoadImages();
+            }, 300);
+        }
+
+        function showLoadingSkeletons(count) {
+            let skeletons = '';
+            for (let i = 0; i < count; i++) {
+                skeletons += `
+                <div class="banner skeleton">
+                    <div class="banner-image-container skeleton-image"></div>
+                    <div class="banner-title skeleton skeleton-title"></div>
+                    <div class="event-date skeleton skeleton-date"></div>
+                    <div class="button-container">
+                        <div class="skeleton skeleton-button"></div>
+                        <div class="skeleton skeleton-button"></div>
+                    </div>
+                </div>
+                `;
+            }
+            bannersContainer.innerHTML = skeletons;
+        }
+
+        function lazyLoadImages() {
+            const lazyImages = document.querySelectorAll('.banner img');
+            
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.getAttribute('src');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            lazyImages.forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        function createBannerCard(banner) {
+            const startDate = new Date(banner.start * 1000);
+            const isUpcoming = getBannerStatus(banner) === "upcoming";
+            const hasValidRedirect = banner.redirect && isValidUrl(banner.redirect);
+            const cleanTitle = cleanBannerTitle(banner.title);
+            
+            return `
+            <div class="banner ${isUpcoming ? 'upcoming' : ''}" data-title="${cleanTitle.toLowerCase()}" data-date="${banner.start}">
+                ${isUpcoming ? '<div class="upcoming-tag">UPCOMING</div>' : ''}
+                <div class="banner-image-container">
+                    <img src="${banner.url}" alt="${cleanTitle}" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="banner-image-error">
+                        <i class="fas fa-exclamation-circle"></i><br>
+                        Image Not Available
+                        <button class="copy-info-button" style="margin-top: 8px; padding: 4px 8px;" 
+                                onclick="retryImageLoad(this.parentElement.previousElementSibling, this.parentElement)">
+                            <i class="fas fa-sync-alt"></i> Retry
+                        </button>
+                    </div>
+                </div>
+                <div class="banner-title">${cleanTitle}</div>
+                <div class="event-date">
+                    From: ${formatDate(startDate)}
+                </div>
+                <div class="button-container">
+                    ${hasValidRedirect ? `
+                    <a href="${banner.redirect}" target="_blank" class="redirect-button">
+                        <i class="fas fa-external-link-alt"></i> Redirect
+                    </a>` : ''}
+                    <button class="copy-info-button" onclick="copyBannerInfo(this, '${escapeHtml(cleanTitle)}', '${formatDate(startDate)}', '${escapeHtml(banner.url)}')">
+                        <i class="far fa-copy"></i> Copy Info
+                    </button>
+                </div>
+            </div>
+            `;
+        }
+
+        // Utility functions
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return string.startsWith('http://') || string.startsWith('https://');
+            } catch (_) {
+                return false;
+            }
+        }
+
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Event handlers
+        terminalInput.addEventListener('input', () => {
+            terminalInputDisplay.textContent = terminalInput.value;
+        });
+
+        terminalInput.addEventListener('keydown', async (e) => {
+            // Command history navigation
+            if (e.key === "ArrowUp" && commandHistory.length > 0) {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                }
+                if (commandHistory[commandHistory.length - 1 - historyIndex]) {
+                    terminalInput.value = commandHistory[commandHistory.length - 1 - historyIndex];
+                    terminalInputDisplay.textContent = terminalInput.value;
+                }
+            } else if (e.key === "ArrowDown") {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    terminalInput.value = commandHistory[commandHistory.length - 1 - historyIndex];
+                    terminalInputDisplay.textContent = terminalInput.value;
+                } else {
+                    historyIndex = -1;
+                    terminalInput.value = "";
+                    terminalInputDisplay.textContent = "";
+                }
+            } else if (e.key === "Tab") {
+                e.preventDefault();
+                const input = terminalInput.value.trim().toUpperCase();
+                if (input) {
+                    // Tab completion for region codes
+                    const matches = Object.keys(regions).filter(code => 
+                        code.startsWith(input)
+                    );
+                    if (matches.length === 1) {
+                        terminalInput.value = matches[0];
+                        terminalInputDisplay.textContent = matches[0];
+                    } else if (matches.length > 1) {
+                        addTerminalLine(`Possible completions: ${matches.join(', ')}`, "info");
+                    }
+                }
+            } else if (e.key === "Enter") {
+                const input = terminalInput.value.trim().toUpperCase();
+                terminalInput.value = "";
+                terminalInputDisplay.textContent = "";
+                if (!input) return;
+
+                // Add to command history
+                commandHistory.push(input);
+                historyIndex = -1;
+                
+                addTerminalLine(input, "output"); // Add input to terminal
+
+                if (input === 'CLEAR') {
+                    clearTerminal();
+                } else if (input === 'LIST') {
+                    const regionList = Object.entries(regions)
+                        .map(([code, data]) => `${code} ${data.flag} - ${data.name}`)
+                        .join('\n');
+                    addTerminalLine(regionList, "info");
+                } else if (input === 'HELP') {
+                    showHelp();
+                } else if (input === 'ABOUT') {
+                    showAbout();
+                } else if (input === 'CACHE') {
+                    bannerCache = {};
+                    localStorage.removeItem('bannerCache');
+                    localStorage.removeItem('lastUpdated');
+                    addTerminalLine('Cache cleared successfully. Data will be refreshed on next load.', 'success');
+                } else if (regions[input]) {
+                    addTerminalLine(`Loading ${regions[input].name} banners...`, "success");
+                    terminalInput.blur(); // Hide keyboard on mobile
+                    
+                    // Show region title
+                    regionTitle.innerHTML = `${regions[input].flag} ${regions[input].name}`;
+                    regionTitle.style.display = "block";
+                    
+                    // Remove any existing last updated element
+                    const existingUpdated = regionTitle.querySelector('.last-updated');
+                    if (existingUpdated) {
+                        regionTitle.removeChild(existingUpdated);
+                    }
+                    
+                    // Remove any existing count element
+                    const existingCount = regionTitle.querySelector('.region-count');
+                    if (existingCount) {
+                        regionTitle.removeChild(existingCount);
+                    }
+                    
+                    // Load and display banners
+                    currentRegion = input;
+                    currentBanners = await fetchBanners(input);
+                    displayBanners(currentBanners, input);
+                    
+                    // Scroll to banners
+                    setTimeout(() => {
+                        bannersContainer.style.display = "grid";
+                        bannersContainer.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                } else {
+                    addTerminalLine(`Error: "${input}" is not a valid command or region code. Type "help" for available commands.`, "error");
+                }
+            }
+        });
+
+        // Terminal window controls
+        terminalClose.addEventListener('click', () => {
+            terminalContainer.style.transform = "scale(0.8)";
+            terminalContainer.style.opacity = "0";
+            setTimeout(() => {
+                terminalContainer.style.display = "none";
+            }, 300);
+        });
+
+        terminalMinimize.addEventListener('click', () => {
+            terminalContainer.style.height = "30px";
+            setTimeout(() => {
+                terminalContainer.style.height = "400px";
+            }, 2000);
+        });
+
+        terminalMaximize.addEventListener('click', () => {
+            if (terminalContainer.style.width === "95%") {
+                terminalContainer.style.width = "90%";
+                terminalContainer.style.maxWidth = "800px";
+            } else {
+                terminalContainer.style.width = "95%";
+                terminalContainer.style.maxWidth = "none";
+            }
+        });
+
+        // Make entire terminal container clickable to focus input
+        terminalContainer.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
+                terminalInput.focus();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+K to focus terminal
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                terminalInput.focus();
+            }
+            
+            // Escape to blur terminal
+            if (e.key === 'Escape') {
+                terminalInput.blur();
+            }
+        });
+
+        // Back to top button
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Copy banner info function
+        async function copyBannerInfo(button, title, dateRange, url) {
+            const originalHTML = button.innerHTML;
+            const text = `${title}
+From: ${dateRange}
+${url}`;
+            button.classList.add('copied');
+            button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            try {
+                await navigator.clipboard.writeText(text);
+                showStatus('Banner info copied to clipboard', 'success');
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = originalHTML;
+                }, 2000);
+            } catch (err) {
+                console.error("Failed to copy:", err);
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = originalHTML;
+                }, 2000);
+            }
+        }
+
+        // Retry image load function
+        function retryImageLoad(imgElement, errorContainer) {
+            imgElement.style.display = 'block';
+            errorContainer.style.display = 'none';
+            imgElement.src = imgElement.src; // Trigger reload
+            setTimeout(() => {
+                if (!imgElement.complete || imgElement.naturalWidth === 0) {
+                    imgElement.style.display = 'none';
+                    errorContainer.style.display = 'flex';
+                }
+            }, 1000);
+        }
+
+        // Initialize
+        window.copyBannerInfo = copyBannerInfo;
+        window.retryImageLoad = retryImageLoad;
+        terminalInput.focus();
+        initParticles();
+
+        // Preload some data
+        setTimeout(() => {
+            fetchBanners("IND").catch(console.error);
+        }, 500);
+
+        // Periodically refresh cache (every 24 hours)
+        setInterval(() => {
+            if (currentRegion) {
+                fetchBanners(currentRegion).then(banners => {
+                    if (banners.length !== currentBanners.length) {
+                        displayBanners(banners, currentRegion);
+                        currentBanners = banners;
+                    }
+                }).catch(console.error);
+            }
+        }, 86400000); // 24 hours
+    </script>
 </body>
 </html>
