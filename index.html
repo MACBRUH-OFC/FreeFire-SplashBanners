@@ -6,6 +6,23 @@
     <title>SPLASH BANNERS ARCHIVE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js"></script>
+    <script>
+      // Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyCctdil02ojxt3uDrkqIEGTmH8hdLHvPG4",
+        authDomain: "enable--analytics-762dd.firebaseapp.com",
+        projectId: "enable--analytics-762dd",
+        storageBucket: "enable--analytics-762dd.appspot.com",
+        messagingSenderId: "376367142221",
+        appId: "1:376367142221:web:4cd2bafa86ebac41a91304"
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
     <style>
         :root {
             --primary: #00a2ff;
@@ -640,6 +657,34 @@
             color: var(--primary-light);
             text-decoration: underline;
         }
+
+        /* Notification Button Styles */
+        .notification-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px auto;
+            display: block;
+            transition: all 0.3s;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .notification-button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .notification-button:active {
+            transform: translateY(0);
+        }
+        .notification-button i {
+            margin-right: 8px;
+        }
+
         @media (max-width: 768px) {
             .main-title {
                 font-size: 2.2rem;
@@ -665,6 +710,10 @@
             .banner-title {
                 font-size: 0.85rem;
             }
+            .notification-button {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
         }
         @media (max-width: 480px) {
             .main-title {
@@ -685,6 +734,10 @@
             .banner-title {
                 font-size: 0.8rem;
             }
+            .notification-button {
+                width: 90%;
+                margin: 10px auto;
+            }
         }
     </style>
 </head>
@@ -692,6 +745,12 @@
     <div class="particles" id="particles"></div>
     <div class="grid-plane"></div>
     <h1 class="main-title">SPLASH BANNERS ARCHIVE</h1>
+    
+    <!-- Notification Button -->
+    <button id="enableNotifications" class="notification-button">
+        <i class="fas fa-bell"></i> Enable Notifications
+    </button>
+    
     <div class="terminal-container" id="terminal-container">
         <div class="terminal-header">
             <div class="terminal-buttons">
@@ -766,6 +825,7 @@
         const backToTopButton = document.getElementById("backToTop");
         const particlesContainer = document.getElementById("particles");
         const keyboardShortcut = document.getElementById("keyboardShortcut");
+        const enableNotificationsBtn = document.getElementById("enableNotifications");
 
         // Command history and state
         let commandHistory = [];
@@ -774,6 +834,86 @@
         let currentBanners = [];
         let bannerCache = JSON.parse(localStorage.getItem('bannerCache')) || {};
         let lastUpdated = JSON.parse(localStorage.getItem('lastUpdated')) || {};
+
+        // ======================
+        // NOTIFICATION FUNCTIONS
+        // ======================
+        
+        // Register Service Worker
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                const swCode = `
+                    importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
+                    importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
+                    
+                    firebase.initializeApp(${JSON.stringify(firebaseConfig)});
+                    const messaging = firebase.messaging();
+                    
+                    messaging.onBackgroundMessage((payload) => {
+                        console.log('[Service Worker] Received background message:', payload);
+                        const notificationTitle = payload.notification.title || 'New Event';
+                        const notificationOptions = {
+                            body: payload.notification.body || 'Check out the new event!',
+                            icon: payload.notification.image || '/icon.png',
+                            vibrate: [200, 100, 200]
+                        };
+                        self.registration.showNotification(notificationTitle, notificationOptions);
+                    });
+                `;
+
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                        return firebase.messaging();
+                    })
+                    .catch(err => {
+                        console.error('Service Worker registration failed:', err);
+                        showStatus('Failed to enable notifications', 'error');
+                    });
+            } else {
+                console.log('Service Workers not supported');
+                showStatus('Notifications not supported in this browser', 'error');
+            }
+        }
+
+        // Request Notification Permissions
+        async function requestNotificationPermission() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    console.log('Notification permission granted.');
+                    
+                    // Register service worker after permission is granted
+                    registerServiceWorker();
+                    
+                    // Get FCM token
+                    const messaging = firebase.messaging();
+                    const token = await messaging.getToken({ 
+                        vapidKey: "BDLqk__nvZcEySiFDwDgMHcXm1f06OZzdcA0nMdKP5fBRh-qFiu2xfMAAfrpX9ogwB5AfqJyxM7CYrKmIQBABjI"
+                    });
+                    
+                    console.log('FCM Token:', token);
+                    showStatus('Notifications enabled successfully!', 'success');
+                    
+                    // Here you would typically send the token to your backend
+                    // await fetch('/api/save-token', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json' },
+                    //     body: JSON.stringify({ token })
+                    // });
+                    
+                } else {
+                    console.log('Notification permission denied.');
+                    showStatus('Notifications blocked', 'error');
+                }
+            } catch (error) {
+                console.error('Error requesting notification permission:', error);
+                showStatus('Failed to enable notifications', 'error');
+            }
+        }
 
         // Initialize particles
         function initParticles() {
@@ -847,6 +987,7 @@
 <span class="command-highlight">help</span> - Show this help message
 <span class="command-highlight">about</span> - Show information about this project
 <span class="command-highlight">cache</span> - Clear cached banner data
+<span class="command-highlight">notify</span> - Enable/disable notifications
 
 Examples:
 > IND - Load India banners
@@ -1194,6 +1335,8 @@ Created by MACBRUH FF ©
                     localStorage.removeItem('bannerCache');
                     localStorage.removeItem('lastUpdated');
                     addTerminalLine('Cache cleared successfully. Data will be refreshed on next load.', 'success');
+                } else if (input === 'NOTIFY') {
+                    requestNotificationPermission();
                 } else if (regions[input]) {
                     addTerminalLine(`Loading ${regions[input].name} banners...`, "success");
                     terminalInput.blur(); // Hide keyboard on mobile
@@ -1292,6 +1435,9 @@ Created by MACBRUH FF ©
                 behavior: 'smooth'
             });
         });
+
+        // Notification button click handler
+        enableNotificationsBtn.addEventListener('click', requestNotificationPermission);
 
         // Copy banner info function
         async function copyBannerInfo(button, title, dateRange, url) {
