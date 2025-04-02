@@ -29,6 +29,9 @@
             --scrollbar-thumb: rgba(80, 80, 80, 0.7);
             --scrollbar-track: rgba(30, 30, 30, 0.5);
             --skeleton-bg: rgba(255, 255, 255, 0.05);
+            --holographic-1: rgba(0, 255, 255, 0.7);
+            --holographic-2: rgba(255, 0, 255, 0.7);
+            --holographic-3: rgba(255, 255, 0, 0.7);
         }
         * {
             box-sizing: border-box;
@@ -67,6 +70,13 @@
             border-radius: 50%;
             opacity: 0.3;
             animation: float 15s infinite linear;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .particle:hover {
+            transform: scale(1.5);
+            opacity: 0.8;
+            box-shadow: 0 0 15px var(--primary);
         }
         @keyframes float {
             0% { transform: translateY(0) rotate(0deg); }
@@ -141,9 +151,28 @@
             border-radius: 50%;
             cursor: pointer;
             transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
         }
         .terminal-button:hover {
             transform: scale(1.1);
+        }
+        .terminal-button:active::after {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,162,255,0.3) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple 0.6s ease-out;
+        }
+        @keyframes ripple {
+            to { 
+                transform: translate(-50%, -50%) scale(1); 
+                opacity: 0; 
+            }
         }
         .terminal-button.close {
             background: var(--terminal-red);
@@ -298,11 +327,13 @@
             text-shadow: 0 0 8px rgba(0, 162, 255, 0.3);
         }
         .region-count {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--terminal-text);
-            opacity: 0.7;
-            margin-left: 10px;
+            opacity: 0.8;
+            margin: 5px 0 20px;
             font-family: 'IBM Plex Mono', monospace;
+            text-align: center;
+            display: none;
         }
         .banners {
             display: none;
@@ -322,6 +353,15 @@
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
             overflow: hidden;
+            animation: fallIn 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        @keyframes fallIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .banner::before {
             content: '';
@@ -349,6 +389,21 @@
         .banner:hover::before {
             animation: shine 1.5s;
             opacity: 1;
+        }
+        .banner:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                var(--holographic-1) 0%, 
+                var(--holographic-2) 50%, 
+                var(--holographic-3) 100%);
+            mix-blend-mode: overlay;
+            opacity: 0.3;
+            pointer-events: none;
         }
         @keyframes shine {
             0% { left: -50%; top: -50%; }
@@ -428,6 +483,7 @@
         }
         .banner:hover .banner-title {
             color: var(--primary-light);
+            text-shadow: 0 0 10px rgba(0, 162, 255, 0.5);
         }
         .event-date {
             font-size: 0.85rem;
@@ -455,6 +511,8 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
+            position: relative;
+            overflow: hidden;
         }
         .copy-info-button {
             background-color: rgba(0, 162, 255, 0.2);
@@ -476,18 +534,6 @@
         }
         .redirect-button:hover {
             background-color: rgba(0, 255, 136, 0.3);
-        }
-        .loader {
-            width: 40px;
-            height: 40px;
-            margin: 20px auto;
-            border: 3px solid rgba(0, 162, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
         .status-indicator {
             position: fixed;
@@ -626,6 +672,157 @@
             color: var(--primary-light);
             text-decoration: underline;
         }
+
+        /* Loading Gear Animation */
+        @keyframes clockwise {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes counter-clockwise {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+        .loading-gears {
+            display: none;
+            position: relative;
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        .gearbox {
+            background: var(--terminal-header);
+            height: 150px;
+            width: 200px;
+            position: relative;
+            border: none;
+            overflow: hidden;
+            border-radius: 6px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+        }
+        .gearbox .overlay {
+            border-radius: 6px;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            box-shadow: inset 0px 0px 20px rgba(0, 0, 0, 0.5);
+            background: transparent;
+        }
+        .gear {
+            position: absolute;
+            height: 60px;
+            width: 60px;
+            box-shadow: 0px -1px 0px 0px rgba(136, 136, 136, 0.5), 0px 1px 0px 0px rgba(0, 0, 0, 0.5);
+            border-radius: 30px;
+        }
+        .gear.large {
+            height: 120px;
+            width: 120px;
+            border-radius: 60px;
+        }
+        .gear.large:after {
+            height: 96px;
+            width: 96px;
+            border-radius: 48px;
+            margin-left: -48px;
+            margin-top: -48px;
+        }
+        .gear.one {
+            top: 12px;
+            left: 10px;
+        }
+        .gear.two {
+            top: 61px;
+            left: 60px;
+        }
+        .gear.three {
+            top: 110px;
+            left: 10px;
+        }
+        .gear.four {
+            top: 13px;
+            left: 128px;
+        }
+        .gear:after {
+            content: "";
+            position: absolute;
+            height: 36px;
+            width: 36px;
+            border-radius: 36px;
+            background: var(--terminal-header);
+            top: 50%;
+            left: 50%;
+            margin-left: -18px;
+            margin-top: -18px;
+            z-index: 3;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1), 
+                        inset 0px 0px 10px rgba(0, 0, 0, 0.1), 
+                        inset 0px 2px 0px 0px rgba(9, 9, 9, 0.5), 
+                        inset 0px -1px 0px 0px rgba(136, 136, 136, 0.5);
+        }
+        .gear-inner {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            background: var(--primary);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .large .gear-inner {
+            border-radius: 60px;
+        }
+        .gear.one .gear-inner {
+            animation: counter-clockwise 3s infinite linear;
+        }
+        .gear.two .gear-inner {
+            animation: clockwise 3s infinite linear;
+        }
+        .gear.three .gear-inner {
+            animation: counter-clockwise 3s infinite linear;
+        }
+        .gear.four .gear-inner {
+            animation: counter-clockwise 6s infinite linear;
+        }
+        .gear-inner .bar {
+            background: var(--primary);
+            height: 16px;
+            width: 76px;
+            position: absolute;
+            left: 50%;
+            margin-left: -38px;
+            top: 50%;
+            margin-top: -8px;
+            border-radius: 2px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .large .gear-inner .bar {
+            margin-left: -68px;
+            width: 136px;
+        }
+        .gear-inner .bar:nth-child(2) {
+            transform: rotate(60deg);
+        }
+        .gear-inner .bar:nth-child(3) {
+            transform: rotate(120deg);
+        }
+        .gear-inner .bar:nth-child(4) {
+            transform: rotate(90deg);
+        }
+        .gear-inner .bar:nth-child(5) {
+            transform: rotate(30deg);
+        }
+        .gear-inner .bar:nth-child(6) {
+            transform: rotate(150deg);
+        }
+
         @media (max-width: 768px) {
             .main-title {
                 font-size: 2.2rem;
@@ -651,6 +848,9 @@
             .banner-title {
                 font-size: 0.85rem;
             }
+            .gearbox {
+                transform: scale(0.8);
+            }
         }
         @media (max-width: 480px) {
             .main-title {
@@ -671,13 +871,18 @@
             .banner-title {
                 font-size: 0.8rem;
             }
+            .gearbox {
+                transform: scale(0.7);
+            }
         }
     </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
     <div class="grid-plane"></div>
+    
     <h1 class="main-title">SPLASH BANNERS ARCHIVE</h1>
+    
     <div class="terminal-container" id="terminal-container">
         <div class="terminal-header">
             <div class="terminal-buttons">
@@ -709,17 +914,71 @@
             </div>
         </div>
     </div>
+    
     <h2 class="region-title" id="region-title"></h2>
+    <div class="region-count" id="region-count"></div>
+    
+    <div class="loading-gears" id="loadingGears">
+        <div class="gearbox">
+            <div class="overlay"></div>
+            <div class="gear one">
+                <div class="gear-inner">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+            <div class="gear two">
+                <div class="gear-inner">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+            <div class="gear three">
+                <div class="gear-inner">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+            <div class="gear four large">
+                <div class="gear-inner">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="banners" id="banners-container"></div>
+    
     <div class="status-indicator" id="status-indicator">
         <i class="fas fa-circle-notch fa-spin"></i> <span>Loading...</span>
     </div>
+    
     <button class="back-to-top" id="backToTop" title="Go to top">
         <i class="fas fa-arrow-up"></i>
     </button>
+    
     <div class="keyboard-shortcut" id="keyboardShortcut" title="Focus terminal">
         Press <kbd>Ctrl</kbd> + <kbd>K</kbd> to focus terminal
     </div>
+    
+    <audio id="hoverSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/2098.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="clickSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/2097.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="successSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/2096.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         // Enhanced regions data with additional info
         const regions = {
@@ -748,10 +1007,15 @@
         const terminalMaximize = document.getElementById("terminal-maximize");
         const bannersContainer = document.getElementById("banners-container");
         const regionTitle = document.getElementById("region-title");
+        const regionCount = document.getElementById("region-count");
         const statusIndicator = document.getElementById("status-indicator");
         const backToTopButton = document.getElementById("backToTop");
         const particlesContainer = document.getElementById("particles");
         const keyboardShortcut = document.getElementById("keyboardShortcut");
+        const loadingGears = document.getElementById("loadingGears");
+        const hoverSound = document.getElementById("hoverSound");
+        const clickSound = document.getElementById("clickSound");
+        const successSound = document.getElementById("successSound");
 
         // Command history and state
         let commandHistory = [];
@@ -759,7 +1023,7 @@
         let currentRegion = null;
         let currentBanners = [];
 
-        // Initialize particles
+        // Initialize particles with navigation functionality
         function initParticles() {
             const particleCount = Math.min(Math.floor(window.innerWidth * window.innerHeight / 10000), 50);
             for (let i = 0; i < particleCount; i++) {
@@ -781,6 +1045,18 @@
                 
                 // Random delay
                 particle.style.animationDelay = `${Math.random() * 20}s`;
+                
+                // Make particles clickable for navigation
+                particle.addEventListener('click', () => {
+                    const commands = ['IND', 'EU', 'NA', 'BR', 'HELP', 'ABOUT', 'CLEAR'];
+                    const randomCommand = commands[Math.floor(Math.random() * commands.length)];
+                    terminalInput.value = randomCommand;
+                    terminalInputDisplay.textContent = randomCommand;
+                    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+                    terminalInput.dispatchEvent(event);
+                    clickSound.currentTime = 0;
+                    clickSound.play();
+                });
                 
                 particlesContainer.appendChild(particle);
             }
@@ -838,7 +1114,7 @@ Examples:
         }
 
         function showAbout() {
-            const aboutText = `Splash Banners Archive v1.2
+            const aboutText = `Splash Banners Archive v2.0
 A collection of Free Fire splash banners from all regions.
             
 Created by MACBRUH FF ©
@@ -858,6 +1134,9 @@ Created by MACBRUH FF ©
         // Data fetching and processing
         async function fetchBanners(region) {
             showStatus('Loading banners...', 'info');
+            loadingGears.style.display = 'flex';
+            bannersContainer.style.display = 'none';
+            regionCount.style.display = 'none';
             
             try {
                 const proxyUrl = "https://api.allorigins.win/raw?url=";
@@ -872,6 +1151,10 @@ Created by MACBRUH FF ©
                 console.error("Error fetching banners:", error);
                 showStatus('Failed to load banners', 'error');
                 return [];
+            } finally {
+                setTimeout(() => {
+                    loadingGears.style.display = 'none';
+                }, 500); // Small delay to prevent flickering
             }
         }
 
@@ -883,6 +1166,11 @@ Created by MACBRUH FF ©
             
             statusIndicator.innerHTML = `<i class="fas ${icon}"></i> <span>${message}</span>`;
             statusIndicator.className = `status-indicator visible ${type === 'error' ? 'error' : ''}`;
+            
+            if (type === 'success') {
+                successSound.currentTime = 0;
+                successSound.play();
+            }
             
             if (type === 'success' || type === 'error') {
                 setTimeout(() => {
@@ -928,6 +1216,7 @@ Created by MACBRUH FF ©
                         No banners available for ${regions[region].name}
                     </div>
                 `;
+                bannersContainer.style.display = "grid";
                 return;
             }
             
@@ -942,11 +1231,20 @@ Created by MACBRUH FF ©
                 // Generate HTML
                 bannersContainer.innerHTML = banners.map(banner => createBannerCard(banner)).join('');
                 
-                // Update region title with count
-                const countElement = document.createElement('span');
-                countElement.className = 'region-count';
-                countElement.textContent = `(${banners.length} banners)`;
-                regionTitle.appendChild(countElement);
+                // Update region count
+                regionCount.textContent = `${banners.length} banners available`;
+                regionCount.style.display = "block";
+                
+                // Show containers
+                bannersContainer.style.display = "grid";
+                
+                // Add hover sounds to banners
+                document.querySelectorAll('.banner').forEach(banner => {
+                    banner.addEventListener('mouseenter', () => {
+                        hoverSound.currentTime = 0;
+                        hoverSound.play();
+                    });
+                });
                 
                 // Lazy load images
                 lazyLoadImages();
@@ -969,6 +1267,7 @@ Created by MACBRUH FF ©
                 `;
             }
             bannersContainer.innerHTML = skeletons;
+            bannersContainer.style.display = "grid";
         }
 
         function lazyLoadImages() {
@@ -994,9 +1293,13 @@ Created by MACBRUH FF ©
             const isUpcoming = getBannerStatus(banner) === "upcoming";
             const hasValidRedirect = banner.redirect && isValidUrl(banner.redirect);
             const cleanTitle = cleanBannerTitle(banner.title);
+            const delay = Math.random() * 0.5; // Random delay for fall animation
             
             return `
-            <div class="banner ${isUpcoming ? 'upcoming' : ''}" data-title="${cleanTitle.toLowerCase()}" data-date="${banner.start}">
+            <div class="banner ${isUpcoming ? 'upcoming' : ''}" 
+                 data-title="${cleanTitle.toLowerCase()}" 
+                 data-date="${banner.start}"
+                 style="animation-delay: ${delay}s">
                 ${isUpcoming ? '<div class="upcoming-tag">UPCOMING</div>' : ''}
                 <div class="banner-image-container">
                     <img src="${banner.url}" alt="${cleanTitle}" loading="lazy"
@@ -1120,23 +1423,12 @@ Created by MACBRUH FF ©
                     regionTitle.innerHTML = `${regions[input].flag} ${regions[input].name}`;
                     regionTitle.style.display = "block";
                     
-                    // Remove any existing count element
-                    const existingCount = regionTitle.querySelector('.region-count');
-                    if (existingCount) {
-                        regionTitle.removeChild(existingCount);
-                    }
-                    
                     // Load and display banners
                     currentRegion = input;
                     fetchBanners(input).then(banners => {
                         currentBanners = banners;
                         displayBanners(currentBanners, input);
-                        
-                        // Scroll to banners
-                        setTimeout(() => {
-                            bannersContainer.style.display = "grid";
-                            bannersContainer.scrollIntoView({ behavior: 'smooth' });
-                        }, 100);
+                        bannersContainer.scrollIntoView({ behavior: 'smooth' });
                     });
                 } else {
                     addTerminalLine(`Error: "${input}" is not a valid command or region code. Type "help" for available commands.`, "error");
@@ -1205,6 +1497,8 @@ Created by MACBRUH FF ©
                 top: 0,
                 behavior: 'smooth'
             });
+            clickSound.currentTime = 0;
+            clickSound.play();
         });
 
         // Copy banner info function
@@ -1218,6 +1512,11 @@ ${url}`;
             try {
                 await navigator.clipboard.writeText(text);
                 showStatus('Banner info copied to clipboard', 'success');
+                
+                // Load confetti dynamically
+                const { default: confetti } = await import('https://cdn.skypack.dev/canvas-confetti');
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                
                 setTimeout(() => {
                     button.classList.remove('copied');
                     button.innerHTML = originalHTML;
